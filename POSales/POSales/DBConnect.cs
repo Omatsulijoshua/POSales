@@ -31,7 +31,7 @@ namespace POSales
 
 
         // @"Data Source=DESKTOP-C4UJ6TV\SQLEXPRESS;
-        //@"Data Source=OMATSULI-TOJU-J;
+        //@"Data Source = OMATSULI - TOJU - J;
         //@"Data Source=192.168.0.153;
         //Encrypt=True;
         //           TrustServerCertificate=True;
