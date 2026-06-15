@@ -1,0 +1,43 @@
+## Ignore Visual Studio Temporary Files and Build Results
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+x64/
+x86/
+[Aa]rm/
+[Aa]rm64/
+bbin/
+bin/
+obj/
+
+# Visual Studio 2015/2017 cache/options directory
+.vs/
+
+# NuGet Packages
+packages/
+
+# Installer files
+*.msi
+*.cab
+*.msm
+*.msp
+*.sed
+~*
+
+# Output installers and zip payloads
+installer-build/*.exe
+installer-build/payload/app.zip
+installer-build-logo/*.exe
+installer-build-logo/payload/app.zip
+installer-build-simple/*.exe
+installer-build-simple/payload/app.zip
+installer-build-compiled/*.exe
+installer-build-compiled/app.zip
