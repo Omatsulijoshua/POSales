@@ -88,10 +88,10 @@
                   <Width>0.4in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.25in</Width>
+                  <Width>0.29167in</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.48181in</Width>
+                  <Width>0.44014in</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -141,7 +141,19 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Description</Value>
+                                  <Value>Items</Value>
+                                  <Style>
+                                    <FontFamily>century</FontFamily>
+                                    <Color>White</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
                                   <Style>
                                     <FontFamily>century</FontFamily>
                                     <Color>White</Color>
@@ -280,6 +292,7 @@
                                   <Value>Total</Value>
                                   <Style>
                                     <FontFamily>century</FontFamily>
+                                    <FontSize>9pt</FontSize>
                                     <Color>White</Color>
                                   </Style>
                                 </TextRun>
@@ -472,7 +485,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!total.Value</Value>
+                                  <Value>=IIf(Parameters!pVatType.Value = "New", CDbl(Fields!total.Value) + (CDbl(Fields!total.Value) * (CDbl(Parameters!pVatPercent.Value) / 100)), Fields!total.Value)</Value>
                                   <Style />
                                 </TextRun>
                               </TextRuns>
@@ -579,7 +592,7 @@
             </Paragraphs>
             <rd:DefaultName>pVatable</rd:DefaultName>
             <Top>1.23833in</Top>
-            <Left>1.59375in</Left>
+            <Left>1.49306in</Left>
             <Height>0.25in</Height>
             <Width>1.10764in</Width>
             <ZIndex>2</ZIndex>
@@ -610,8 +623,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>pVat</rd:DefaultName>
-            <Top>1.74528in</Top>
-            <Left>1.59375in</Left>
+            <Top>1.55777in</Top>
+            <Left>1.49306in</Left>
             <Height>0.25in</Height>
             <Width>1.10764in</Width>
             <ZIndex>3</ZIndex>
@@ -642,8 +655,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>pDiscount</rd:DefaultName>
-            <Top>2.27778in</Top>
-            <Left>1.59375in</Left>
+            <Top>1.93403in</Top>
+            <Left>1.49306in</Left>
             <Height>0.25in</Height>
             <Width>1.10764in</Width>
             <ZIndex>4</ZIndex>
@@ -666,8 +679,8 @@
                   <TextRun>
                     <Value>=Parameters!pTotal.Value</Value>
                     <Style>
-                      <FontWeight>Bold</FontWeight>
                       <FontSize>18pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
                     </Style>
                   </TextRun>
                 </TextRuns>
@@ -741,7 +754,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox22</rd:DefaultName>
-            <Top>1.74528in</Top>
+            <Top>1.55777in</Top>
             <Left>0.01389in</Left>
             <Height>0.25in</Height>
             <Width>1in</Width>
@@ -773,7 +786,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox22</rd:DefaultName>
-            <Top>2.27778in</Top>
+            <Top>1.93403in</Top>
             <Height>0.25in</Height>
             <Width>1in</Width>
             <ZIndex>8</ZIndex>
@@ -804,7 +817,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox22</rd:DefaultName>
-            <Top>2.68056in</Top>
+            <Top>2.30556in</Top>
+            <Left>0.02778in</Left>
             <Height>0.25in</Height>
             <Width>1in</Width>
             <ZIndex>9</ZIndex>
@@ -835,7 +849,7 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox28</rd:DefaultName>
-            <Top>3.47444in</Top>
+            <Top>3.03694in</Top>
             <Left>0.83681in</Left>
             <Height>0.25in</Height>
             <Width>1in</Width>
@@ -865,7 +879,6 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox29</rd:DefaultName>
-            <Top>0.01389in</Top>
             <Left>1.70139in</Left>
             <Height>0.25in</Height>
             <Width>1in</Width>
@@ -897,8 +910,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>TextboxPaymentTypeLabel</rd:DefaultName>
-            <Top>3.155in</Top>
-            <Left>0.01389in</Left>
+            <Top>2.66889in</Top>
+            <Left>0.02778in</Left>
             <Height>0.25in</Height>
             <Width>1.22917in</Width>
             <ZIndex>12</ZIndex>
@@ -929,8 +942,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>pPaymentType</rd:DefaultName>
-            <Top>3.11111in</Top>
-            <Left>1.47917in</Left>
+            <Top>2.625in</Top>
+            <Left>1.39237in</Left>
             <Height>0.25in</Height>
             <Width>1.20833in</Width>
             <ZIndex>13</ZIndex>
@@ -952,7 +965,9 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Parameters!pTotal.Value</Value>
-                    <Style />
+                    <Style>
+                      <FontWeight>Bold</FontWeight>
+                    </Style>
                   </TextRun>
                 </TextRuns>
                 <Style>
@@ -961,8 +976,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>pTotal</rd:DefaultName>
-            <Top>2.68056in</Top>
-            <Left>1.55208in</Left>
+            <Top>2.30556in</Top>
+            <Left>1.47917in</Left>
             <Height>0.25in</Height>
             <Width>1.12153in</Width>
             <ZIndex>14</ZIndex>
@@ -1163,11 +1178,15 @@
       <DataType>String</DataType>
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
+    <ReportParameter Name="pVatType">
+      <DataType>String</DataType>
+      <Prompt>ReportParameter1</Prompt>
+    </ReportParameter>
   </ReportParameters>
   <ReportParametersLayout>
     <GridLayoutDefinition>
       <NumberOfColumns>4</NumberOfColumns>
-      <NumberOfRows>3</NumberOfRows>
+      <NumberOfRows>4</NumberOfRows>
       <CellDefinitions>
         <CellDefinition>
           <ColumnIndex>0</ColumnIndex>
@@ -1228,6 +1247,11 @@
           <ColumnIndex>3</ColumnIndex>
           <RowIndex>2</RowIndex>
           <ParameterName>pVatPercent</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>3</RowIndex>
+          <ParameterName>pVatType</ParameterName>
         </CellDefinition>
       </CellDefinitions>
     </GridLayoutDefinition>

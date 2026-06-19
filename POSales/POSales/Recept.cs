@@ -84,6 +84,7 @@ namespace POSales
                 ReportParameter pCashier = new ReportParameter("pCashier", cashier.lblUsername.Text);
                 ReportParameter pPaymentType = new ReportParameter("pPaymentType", string.IsNullOrWhiteSpace(paymentType) ? "Cash" : paymentType);
                 ReportParameter pVatPercent = new ReportParameter("pVatPercent", dbcon.GetVatPercent().ToString("0.00"));
+                ReportParameter pVatType = new ReportParameter("pVatType", dbcon.GetVatType());
 
                 reportViewer1.LocalReport.SetParameters(pVatable);
                 reportViewer1.LocalReport.SetParameters(pVat);
@@ -97,6 +98,7 @@ namespace POSales
                 reportViewer1.LocalReport.SetParameters(pCashier);
                 reportViewer1.LocalReport.SetParameters(pPaymentType);
                 reportViewer1.LocalReport.SetParameters(pVatPercent);
+                reportViewer1.LocalReport.SetParameters(pVatType);
 
                 rptDataSourece = new ReportDataSource("DataSet1", ds.Tables["dtRecept"]);
                 reportViewer1.LocalReport.DataSources.Add(rptDataSourece);
