@@ -33,17 +33,20 @@ namespace POSales
                 cn.Open();
                 cm = new SqlCommand("SELECT * FROM tbStore", cn);
                 dr = cm.ExecuteReader();
-                dr.Read();
-                if(dr.HasRows)
+                if (dr.Read())
                 {
                     havestoreinfo = true;
                     txtStName.Text = dr["store"].ToString();
                     txtAddress.Text = dr["address"].ToString();
+                    cboVatType.Text = dr["vat_type"] != DBNull.Value && !string.IsNullOrEmpty(dr["vat_type"].ToString()) ? dr["vat_type"].ToString() : "Old";
+                    txtVatPercent.Text = dr["vat_percent"] != DBNull.Value ? Convert.ToDouble(dr["vat_percent"]).ToString("0.00") : "12.00";
                 }
                 else
                 {
                     txtStName.Clear();
                     txtAddress.Clear();
+                    cboVatType.SelectedIndex = 0;
+                    txtVatPercent.Text = "12.00";
                 }
                 dr.Close();
                 cn.Close();
@@ -60,19 +63,33 @@ namespace POSales
             try
             {
                 if (MessageBox.Show("Save store details?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    double vatPercent = 12.00;
+                    double.TryParse(txtVatPercent.Text, out vatPercent);
+
+                    cn.Open();
                     if(havestoreinfo)
                     {
-                        dbcon.ExecuteQuery("UPDATE tbStore SET store = '" + txtStName.Text + "', address= '" + txtAddress.Text + "'");
+                        cm = new SqlCommand("UPDATE tbStore SET store = @store, address = @address, vat_type = @vat_type, vat_percent = @vat_percent", cn);
                     }
                     else
                     {
-                        dbcon.ExecuteQuery("INSERT INTO tbStore (store,address) VALUES ('" + txtStName.Text + "','" + txtAddress.Text + "')");
+                        cm = new SqlCommand("INSERT INTO tbStore (store, address, vat_type, vat_percent) VALUES (@store, @address, @vat_type, @vat_percent)", cn);
                     }
-                MessageBox.Show("Store detail has been successfully saved!", "Save Record", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.Dispose();
+                    cm.Parameters.AddWithValue("@store", txtStName.Text);
+                    cm.Parameters.AddWithValue("@address", txtAddress.Text);
+                    cm.Parameters.AddWithValue("@vat_type", cboVatType.Text);
+                    cm.Parameters.AddWithValue("@vat_percent", vatPercent);
+                    cm.ExecuteNonQuery();
+                    cn.Close();
+
+                    MessageBox.Show("Store detail has been successfully saved!", "Save Record", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.Dispose();
+                }
             }
             catch (Exception ex)
             {
+                if (cn.State == ConnectionState.Open) cn.Close();
                 MessageBox.Show(ex.Message, "Error");
             }
         }

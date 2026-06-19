@@ -211,6 +211,11 @@ namespace POSales
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            string storeName = dbcon.getStoreName();
+            if (!string.IsNullOrEmpty(storeName))
+            {
+                this.Text = storeName;
+            }
             btnDashboard.PerformClick();
             Noti();
         }

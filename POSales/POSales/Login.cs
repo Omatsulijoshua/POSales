@@ -134,7 +134,11 @@ namespace POSales
 
         private void Login_Load(object sender, EventArgs e)
         {
-
+            string storeName = dbcon.getStoreName();
+            if (!string.IsNullOrEmpty(storeName))
+            {
+                label1.Text = storeName;
+            }
         }
 
         private void PrepareAppWindow(Form form)

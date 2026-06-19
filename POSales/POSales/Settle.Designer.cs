@@ -1,4 +1,4 @@
-﻿
+
 namespace POSales
 {
     partial class Settle
@@ -31,6 +31,13 @@ namespace POSales
         {
             this.components = new System.ComponentModel.Container();
             this.txtSale = new System.Windows.Forms.TextBox();
+            this.txtVatable = new System.Windows.Forms.TextBox();
+            this.txtVat = new System.Windows.Forms.TextBox();
+            this.lblTotalAmount = new System.Windows.Forms.Label();
+            this.lblAmount = new System.Windows.Forms.Label();
+            this.lblVat = new System.Windows.Forms.Label();
+            this.lblCash = new System.Windows.Forms.Label();
+            this.lblChange = new System.Windows.Forms.Label();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.txtCash = new System.Windows.Forms.TextBox();
             this.txtChange = new System.Windows.Forms.TextBox();
@@ -58,6 +65,14 @@ namespace POSales
             this.txtSale.Name = "txtSale";
             this.txtSale.Size = new System.Drawing.Size(217, 26);
             this.txtSale.TabIndex = 0;
+            // 
+            // txtVatable
+            // 
+            this.txtVatable.Name = "txtVatable";
+            // 
+            // txtVat
+            // 
+            this.txtVat.Name = "txtVat";
             // 
             // contextMenuStrip1
             // 
@@ -258,8 +273,43 @@ namespace POSales
             this.Controls.Add(this.btnFour);
             this.Controls.Add(this.btnEight);
             this.Controls.Add(this.btnSeven);
+            // 
+            // lblTotalAmount
+            // 
+            this.lblTotalAmount.Name = "lblTotalAmount";
+            this.lblTotalAmount.Text = "Total Amount :";
+            // 
+            // lblAmount
+            // 
+            this.lblAmount.Name = "lblAmount";
+            this.lblAmount.Text = "Amount :";
+            // 
+            // lblVat
+            // 
+            this.lblVat.Name = "lblVat";
+            this.lblVat.Text = "VAT :";
+            // 
+            // lblCash
+            // 
+            this.lblCash.Name = "lblCash";
+            this.lblCash.Text = "Cash :";
+            // 
+            // lblChange
+            // 
+            this.lblChange.Name = "lblChange";
+            this.lblChange.Text = "Change :";
+            // 
+            // Settle
+            // 
+            this.Controls.Add(this.lblTotalAmount);
+            this.Controls.Add(this.lblAmount);
+            this.Controls.Add(this.lblVat);
+            this.Controls.Add(this.lblCash);
+            this.Controls.Add(this.lblChange);
             this.Controls.Add(this.txtChange);
             this.Controls.Add(this.txtCash);
+            this.Controls.Add(this.txtVat);
+            this.Controls.Add(this.txtVatable);
             this.Controls.Add(this.txtSale);
             this.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.KeyPreview = true;
@@ -293,5 +343,12 @@ namespace POSales
         private System.Windows.Forms.Button btnDZero;
         private System.Windows.Forms.Button btnEnter;
         public System.Windows.Forms.TextBox txtSale;
+        public System.Windows.Forms.TextBox txtVatable;
+        public System.Windows.Forms.TextBox txtVat;
+        private System.Windows.Forms.Label lblTotalAmount;
+        private System.Windows.Forms.Label lblAmount;
+        private System.Windows.Forms.Label lblVat;
+        private System.Windows.Forms.Label lblCash;
+        private System.Windows.Forms.Label lblChange;
     }
 }

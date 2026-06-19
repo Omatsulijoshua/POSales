@@ -866,10 +866,9 @@ namespace POSales
             Panel progress = FindControl<Panel>(form, "panel1");
             Panel progressTrack = FindControl<Panel>(form, "panel2");
             PictureBox logo = FindControl<PictureBox>(form, "pictureBox1");
-            string brandName = title == null || string.IsNullOrWhiteSpace(title.Text) ||
-                title.Text.Equals("UPDATE SUPERMARKET", StringComparison.OrdinalIgnoreCase)
-                    ? "IRAS SPOT"
-                    : title.Text.Trim();
+            DBConnect dbcon = new DBConnect();
+            string dbStoreName = dbcon.getStoreName();
+            string brandName = !string.IsNullOrEmpty(dbStoreName) ? dbStoreName : "IRAS SPOT";
 
             if (logo != null)
             {
@@ -2101,14 +2100,21 @@ namespace POSales
         {
             form.FormBorderStyle = FormBorderStyle.FixedSingle;
             form.StartPosition = FormStartPosition.CenterParent;
-            form.ClientSize = new Size(330, 500);
-            form.MinimumSize = new Size(330, 500);
-            form.MaximumSize = new Size(330, 500);
+            form.ClientSize = new Size(330, 580);
+            form.MinimumSize = new Size(330, 580);
+            form.MaximumSize = new Size(330, 580);
             form.BackColor = AppBackground;
 
             TextBox sale = FindControl<TextBox>(form, "txtSale");
+            TextBox vatable = FindControl<TextBox>(form, "txtVatable");
+            TextBox vat = FindControl<TextBox>(form, "txtVat");
             TextBox cash = FindControl<TextBox>(form, "txtCash");
             TextBox change = FindControl<TextBox>(form, "txtChange");
+            Label lblTotalAmount = FindControl<Label>(form, "lblTotalAmount");
+            Label lblAmount = FindControl<Label>(form, "lblAmount");
+            Label lblVat = FindControl<Label>(form, "lblVat");
+            Label lblCash = FindControl<Label>(form, "lblCash");
+            Label lblChange = FindControl<Label>(form, "lblChange");
             Label paymentLabel = FindControl<Label>(form, "lblPaymentType");
             ComboBox paymentType = FindControl<ComboBox>(form, "cboPaymentType");
             Button seven = FindControl<Button>(form, "btnSeven");
@@ -2132,9 +2138,26 @@ namespace POSales
             int key = 64;
             int top = 18;
 
-            LayoutSettleTextBox(sale, margin, top, width, inputHeight);
-            LayoutSettleTextBox(cash, margin, top + 40, width, inputHeight);
-            LayoutSettleTextBox(change, margin, top + 80, width, inputHeight);
+            int labelWidth = 100;
+            int inputX = 130;
+            int inputWidth = 182;
+
+            LayoutSettleField(lblTotalAmount, sale, margin, top, labelWidth, inputX, inputWidth, inputHeight);
+            LayoutSettleField(lblAmount, vatable, margin, top + 40, labelWidth, inputX, inputWidth, inputHeight);
+            LayoutSettleField(lblVat, vat, margin, top + 80, labelWidth, inputX, inputWidth, inputHeight);
+            LayoutSettleField(lblCash, cash, margin, top + 120, labelWidth, inputX, inputWidth, inputHeight);
+            LayoutSettleField(lblChange, change, margin, top + 160, labelWidth, inputX, inputWidth, inputHeight);
+
+            if (vatable != null)
+            {
+                vatable.ReadOnly = true;
+                vatable.Enabled = false;
+            }
+            if (vat != null)
+            {
+                vat.ReadOnly = true;
+                vat.Enabled = false;
+            }
 
             if (paymentLabel == null)
             {
@@ -2147,7 +2170,7 @@ namespace POSales
             paymentLabel.AutoSize = false;
             paymentLabel.Font = new Font("Segoe UI Semibold", 9.5F, FontStyle.Bold);
             paymentLabel.ForeColor = MutedText;
-            paymentLabel.SetBounds(margin, top + 118, width, 22);
+            paymentLabel.SetBounds(margin, top + 198, width, 22);
 
             if (paymentType == null)
             {
@@ -2162,9 +2185,9 @@ namespace POSales
             paymentType.Items.AddRange(new object[] { "Cash", "Transfer", "POS Card Payment" });
             if (paymentType.SelectedIndex < 0)
                 paymentType.SelectedIndex = 0;
-            paymentType.SetBounds(margin, top + 142, width, 34);
+            paymentType.SetBounds(margin, top + 222, width, 34);
 
-            int keypadTop = top + 192;
+            int keypadTop = top + 272;
             int[] xs = { margin, margin + key + gap, margin + (key + gap) * 2, margin + (key + gap) * 3 };
             LayoutSettleButton(seven, xs[0], keypadTop, key, "7");
             LayoutSettleButton(eight, xs[1], keypadTop, key, "8");
@@ -2593,6 +2616,22 @@ namespace POSales
             textBox.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
             textBox.TextAlign = HorizontalAlignment.Right;
             textBox.Multiline = false;
+        }
+
+        private static void LayoutSettleField(Label label, TextBox textBox, int labelX, int y, int labelWidth, int inputX, int inputWidth, int height)
+        {
+            if (label != null)
+            {
+                label.AutoSize = false;
+                label.Font = new Font("Segoe UI Semibold", 9.5F, FontStyle.Bold);
+                label.ForeColor = MutedText;
+                label.TextAlign = ContentAlignment.MiddleLeft;
+                label.SetBounds(labelX, y, labelWidth, height);
+            }
+            if (textBox != null)
+            {
+                LayoutSettleTextBox(textBox, inputX, y, inputWidth, height);
+            }
         }
 
         private static void LayoutSettleButton(Button button, int x, int y, int size, string text)

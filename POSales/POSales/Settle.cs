@@ -29,6 +29,80 @@ namespace POSales
             cashier = cash;
             txtCash.KeyPress += txtCash_KeyPress;
             SetCashDisplay();
+
+            txtVatable.Text = cashier.lblVatable.Text;
+            txtVat.Text = cashier.lblVat.Text;
+
+            string vatType = dbcon.GetVatType();
+            Label lblAmount = Controls.Find("lblAmount", true).OfType<Label>().FirstOrDefault();
+            Label lblVat = Controls.Find("lblVat", true).OfType<Label>().FirstOrDefault();
+            Label lblCash = Controls.Find("lblCash", true).OfType<Label>().FirstOrDefault();
+            Label lblChange = Controls.Find("lblChange", true).OfType<Label>().FirstOrDefault();
+
+            if (vatType == "New")
+            {
+                txtVatable.Visible = true;
+                txtVat.Visible = true;
+                if (lblAmount != null) lblAmount.Visible = true;
+                if (lblVat != null) lblVat.Visible = true;
+            }
+            else
+            {
+                txtVatable.Visible = false;
+                txtVat.Visible = false;
+                if (lblAmount != null) lblAmount.Visible = false;
+                if (lblVat != null) lblVat.Visible = false;
+
+                this.ClientSize = new Size(330, 500);
+                this.MinimumSize = new Size(330, 500);
+                this.MaximumSize = new Size(330, 500);
+
+                txtCash.Top = txtSale.Top + 40;
+                if (lblCash != null) lblCash.Top = txtSale.Top + 40;
+                txtChange.Top = txtSale.Top + 80;
+                if (lblChange != null) lblChange.Top = txtSale.Top + 80;
+
+                Label paymentLabel = Controls.Find("lblPaymentType", true).OfType<Label>().FirstOrDefault();
+                if (paymentLabel != null) paymentLabel.Top = txtSale.Top + 118;
+
+                ComboBox paymentType = Controls.Find("cboPaymentType", true).OfType<ComboBox>().FirstOrDefault();
+                if (paymentType != null) paymentType.Top = txtSale.Top + 142;
+
+                int keypadTop = txtSale.Top + 192;
+                int key = 64;
+                int gap = 8;
+                int margin = 18;
+                int[] xs = { margin, margin + key + gap, margin + (key + gap) * 2, margin + (key + gap) * 3 };
+
+                Button seven = Controls.Find("btnSeven", true).OfType<Button>().FirstOrDefault();
+                Button eight = Controls.Find("btnEight", true).OfType<Button>().FirstOrDefault();
+                Button nine = Controls.Find("btnNine", true).OfType<Button>().FirstOrDefault();
+                Button clear = Controls.Find("btnClear", true).OfType<Button>().FirstOrDefault();
+                Button four = Controls.Find("btnFour", true).OfType<Button>().FirstOrDefault();
+                Button five = Controls.Find("btnFive", true).OfType<Button>().FirstOrDefault();
+                Button six = Controls.Find("btnSix", true).OfType<Button>().FirstOrDefault();
+                Button zero = Controls.Find("btnZero", true).OfType<Button>().FirstOrDefault();
+                Button one = Controls.Find("btnOne", true).OfType<Button>().FirstOrDefault();
+                Button two = Controls.Find("btnTwo", true).OfType<Button>().FirstOrDefault();
+                Button three = Controls.Find("btnThree", true).OfType<Button>().FirstOrDefault();
+                Button dZero = Controls.Find("btnDZero", true).OfType<Button>().FirstOrDefault();
+                Button enter = Controls.Find("btnEnter", true).OfType<Button>().FirstOrDefault();
+
+                if (seven != null) seven.SetBounds(xs[0], keypadTop, key, 52);
+                if (eight != null) eight.SetBounds(xs[1], keypadTop, key, 52);
+                if (nine != null) nine.SetBounds(xs[2], keypadTop, key, 52);
+                if (clear != null) clear.SetBounds(xs[3], keypadTop, key, 52);
+                if (four != null) four.SetBounds(xs[0], keypadTop + 58, key, 52);
+                if (five != null) five.SetBounds(xs[1], keypadTop + 58, key, 52);
+                if (six != null) six.SetBounds(xs[2], keypadTop + 58, key, 52);
+                if (zero != null) zero.SetBounds(xs[3], keypadTop + 58, key, 52);
+                if (one != null) one.SetBounds(xs[0], keypadTop + 116, key, 52);
+                if (two != null) two.SetBounds(xs[1], keypadTop + 116, key, 52);
+                if (three != null) three.SetBounds(xs[2], keypadTop + 116, key, 52);
+                if (dZero != null) dZero.SetBounds(xs[3], keypadTop + 116, key, 52);
+
+                if (enter != null) enter.SetBounds(margin, keypadTop + 178, this.ClientSize.Width - margin * 2, 52);
+            }
         }
 
         private ComboBox PaymentTypeBox

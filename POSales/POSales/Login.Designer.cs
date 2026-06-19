@@ -221,7 +221,7 @@ namespace POSales
             this.btnDbConfig.Name = "btnDbConfig";
             this.btnDbConfig.Size = new System.Drawing.Size(180, 36);
             this.btnDbConfig.TabIndex = 15;
-            this.btnDbConfig.Text = "Database Settings";
+            this.btnDbConfig.Text = "Configuration";
             this.btnDbConfig.UseVisualStyleBackColor = false;
             this.btnDbConfig.Click += new System.EventHandler(this.btnDbConfig_Click);
             // 

@@ -243,13 +243,32 @@ namespace POSales
         public void GetCartTotal()
         {
             double discount = double.Parse(lblDiscount.Text);
-            double sales = double.Parse(lblSaleTotal.Text) - discount;
-            double vat = sales * 0.12;//VAT: 12% of VAT Payable (Output Tax less Input Tax)
-            double vatable = sales - vat;
+            double baseAmount = double.Parse(lblSaleTotal.Text) - discount;
+
+            string vatType = dbcon.GetVatType();
+            double vatPercent = dbcon.GetVatPercent();
+
+            double vat = 0;
+            double vatable = 0;
+            double finalTotal = 0;
+
+            if (vatType == "New")
+            {
+                vatable = baseAmount;
+                vat = vatable * (vatPercent / 100.0);
+                finalTotal = vatable + vat;
+            }
+            else
+            {
+                // Old VAT
+                finalTotal = baseAmount;
+                vat = finalTotal * (vatPercent / 100.0);
+                vatable = finalTotal - vat;
+            }
 
             lblVat.Text = vat.ToString("#,##0.00");
             lblVatable.Text = vatable.ToString("#,##0.00");
-            lblDisplayTotal.Text = sales.ToString("#,##0.00");
+            lblDisplayTotal.Text = finalTotal.ToString("#,##0.00");
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -470,6 +489,11 @@ namespace POSales
 
         private void Cashier_Load(object sender, EventArgs e)
         {
+            string storeName = dbcon.getStoreName();
+            if (!string.IsNullOrEmpty(storeName))
+            {
+                this.Text = storeName;
+            }
             Noti();
         }
 

@@ -1,4 +1,4 @@
-﻿
+
 namespace POSales
 {
     partial class Store
@@ -36,6 +36,10 @@ namespace POSales
             this.label3 = new System.Windows.Forms.Label();
             this.txtStName = new System.Windows.Forms.TextBox();
             this.txtAddress = new System.Windows.Forms.TextBox();
+            this.lblVatType = new System.Windows.Forms.Label();
+            this.cboVatType = new System.Windows.Forms.ComboBox();
+            this.lblVatPercent = new System.Windows.Forms.Label();
+            this.txtVatPercent = new System.Windows.Forms.TextBox();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
@@ -104,7 +108,7 @@ namespace POSales
             this.btnSave.FlatAppearance.BorderSize = 0;
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSave.ForeColor = System.Drawing.Color.White;
-            this.btnSave.Location = new System.Drawing.Point(437, 116);
+            this.btnSave.Location = new System.Drawing.Point(437, 166);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(94, 35);
             this.btnSave.TabIndex = 31;
@@ -119,7 +123,7 @@ namespace POSales
             this.btnCancel.FlatAppearance.BorderSize = 0;
             this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancel.ForeColor = System.Drawing.Color.Black;
-            this.btnCancel.Location = new System.Drawing.Point(548, 116);
+            this.btnCancel.Location = new System.Drawing.Point(548, 166);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(94, 35);
             this.btnCancel.TabIndex = 32;
@@ -127,17 +131,58 @@ namespace POSales
             this.btnCancel.UseVisualStyleBackColor = false;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
+            // lblVatType
+            // 
+            this.lblVatType.AutoSize = true;
+            this.lblVatType.Location = new System.Drawing.Point(50, 116);
+            this.lblVatType.Name = "lblVatType";
+            this.lblVatType.Size = new System.Drawing.Size(84, 20);
+            this.lblVatType.TabIndex = 33;
+            this.lblVatType.Text = "VAT Type :";
+            // 
+            // cboVatType
+            // 
+            this.cboVatType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboVatType.FormattingEnabled = true;
+            this.cboVatType.Items.AddRange(new object[] {
+            "Old",
+            "New"});
+            this.cboVatType.Location = new System.Drawing.Point(169, 113);
+            this.cboVatType.Name = "cboVatType";
+            this.cboVatType.Size = new System.Drawing.Size(180, 28);
+            this.cboVatType.TabIndex = 34;
+            // 
+            // lblVatPercent
+            // 
+            this.lblVatPercent.AutoSize = true;
+            this.lblVatPercent.Location = new System.Drawing.Point(390, 116);
+            this.lblVatPercent.Name = "lblVatPercent";
+            this.lblVatPercent.Size = new System.Drawing.Size(127, 20);
+            this.lblVatPercent.TabIndex = 35;
+            this.lblVatPercent.Text = "VAT Percent (%) :";
+            // 
+            // txtVatPercent
+            // 
+            this.txtVatPercent.Location = new System.Drawing.Point(520, 113);
+            this.txtVatPercent.Name = "txtVatPercent";
+            this.txtVatPercent.Size = new System.Drawing.Size(122, 26);
+            this.txtVatPercent.TabIndex = 36;
+            // 
             // Store
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(708, 221);
+            this.ClientSize = new System.Drawing.Size(708, 271);
             this.ControlBox = false;
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.txtStName);
             this.Controls.Add(this.txtAddress);
+            this.Controls.Add(this.lblVatType);
+            this.Controls.Add(this.cboVatType);
+            this.Controls.Add(this.lblVatPercent);
+            this.Controls.Add(this.txtVatPercent);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.panel1);
@@ -163,6 +208,10 @@ namespace POSales
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtStName;
         private System.Windows.Forms.TextBox txtAddress;
+        private System.Windows.Forms.Label lblVatType;
+        private System.Windows.Forms.Label lblVatPercent;
+        private System.Windows.Forms.ComboBox cboVatType;
+        private System.Windows.Forms.TextBox txtVatPercent;
         public System.Windows.Forms.Button btnSave;
         public System.Windows.Forms.Button btnCancel;
     }

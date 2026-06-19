@@ -18,8 +18,10 @@ namespace IRASSpotPOSSetup
                 string installDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "IRAS SPOT POS");
                 string tempInstallDir = installDir + ".installing";
                 string zipPath = Path.Combine(Path.GetTempPath(), "IRAS_SPOT_POS_app.zip");
+                string backupConfigDir = Path.Combine(Path.GetTempPath(), "IRAS_SPOT_POS_config_backup");
 
                 CloseRunningApp(installDir);
+                BackupDatabaseSettings(installDir, backupConfigDir);
 
                 using (Stream resource = Assembly.GetExecutingAssembly().GetManifestResourceStream("app.zip"))
                 {
@@ -39,6 +41,7 @@ namespace IRASSpotPOSSetup
 
                 DeleteDirectoryIfExists(installDir);
                 Directory.Move(tempInstallDir, installDir);
+                RestoreDatabaseSettings(installDir, backupConfigDir);
 
                 string exePath = Path.Combine(installDir, "POSales.exe");
                 string iconPath = Path.Combine(installDir, "app_logo.ico");
@@ -114,6 +117,29 @@ namespace IRASSpotPOSSetup
                 if (!File.Exists(reportPath))
                     throw new FileNotFoundException("Report file was not installed: " + report, reportPath);
             }
+        }
+
+        private static void BackupDatabaseSettings(string installDir, string backupConfigDir)
+        {
+            DeleteDirectoryIfExists(backupConfigDir);
+            Directory.CreateDirectory(backupConfigDir);
+
+            if (!Directory.Exists(installDir))
+                return;
+
+            foreach (string file in Directory.GetFiles(installDir, "dbconnection*.txt", SearchOption.TopDirectoryOnly))
+                File.Copy(file, Path.Combine(backupConfigDir, Path.GetFileName(file)), true);
+        }
+
+        private static void RestoreDatabaseSettings(string installDir, string backupConfigDir)
+        {
+            if (!Directory.Exists(backupConfigDir))
+                return;
+
+            foreach (string file in Directory.GetFiles(backupConfigDir, "dbconnection*.txt", SearchOption.TopDirectoryOnly))
+                File.Copy(file, Path.Combine(installDir, Path.GetFileName(file)), true);
+
+            DeleteDirectoryIfExists(backupConfigDir);
         }
 
         private static void DeleteDirectoryIfExists(string path)
