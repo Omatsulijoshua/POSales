@@ -239,7 +239,7 @@ namespace POSales
             this.btnDZero.Name = "btnDZero";
             this.btnDZero.Size = new System.Drawing.Size(50, 50);
             this.btnDZero.TabIndex = 2;
-            this.btnDZero.Text = "00";
+            this.btnDZero.Text = ".";
             this.btnDZero.UseVisualStyleBackColor = false;
             this.btnDZero.Click += new System.EventHandler(this.btnDZero_Click);
             // 
@@ -292,7 +292,7 @@ namespace POSales
             // lblCash
             // 
             this.lblCash.Name = "lblCash";
-            this.lblCash.Text = "Cash :";
+            this.lblCash.Text = "Enter Amount :";
             // 
             // lblChange
             // 

@@ -18,7 +18,7 @@ namespace POSales
         SqlCommand cm = new SqlCommand();
         DBConnect dbcon = new DBConnect();        
         Cashier cashier;
-        private string cashEntryDigits = "";
+        private string cashEntryString = "";
         private bool updatingCashText;
         public Settle(Cashier cash)
         {
@@ -181,12 +181,12 @@ namespace POSales
 
         private void btnDZero_Click(object sender, EventArgs e)
         {
-            AppendCash(btnDZero.Text);
+            AppendCash(".");
         }
 
         private void btnClear_Click(object sender, EventArgs e)
         {
-            cashEntryDigits = "";
+            cashEntryString = "";
             SetCashDisplay();
             txtCash.Focus();
         }
@@ -240,13 +240,13 @@ namespace POSales
             if (updatingCashText)
                 return;
 
-            cashEntryDigits = ExtractWholeNumberDigits(txtCash.Text);
+            cashEntryString = ExtractDecimalDigits(txtCash.Text);
             SetCashDisplay();
         }
 
         private void txtCash_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (char.IsDigit(e.KeyChar))
+            if (char.IsDigit(e.KeyChar) || e.KeyChar == '.')
             {
                 AppendCash(e.KeyChar.ToString());
                 e.Handled = true;
@@ -255,8 +255,8 @@ namespace POSales
 
             if (e.KeyChar == (char)Keys.Back)
             {
-                if (cashEntryDigits.Length > 0)
-                    cashEntryDigits = cashEntryDigits.Substring(0, cashEntryDigits.Length - 1);
+                if (cashEntryString.Length > 0)
+                    cashEntryString = cashEntryString.Substring(0, cashEntryString.Length - 1);
 
                 SetCashDisplay();
                 e.Handled = true;
@@ -269,8 +269,21 @@ namespace POSales
 
         private void AppendCash(string value)
         {
-            cashEntryDigits += new string(value.Where(char.IsDigit).ToArray());
-            cashEntryDigits = cashEntryDigits.TrimStart('0');
+            if (value == ".")
+            {
+                if (!cashEntryString.Contains("."))
+                {
+                    if (string.IsNullOrEmpty(cashEntryString))
+                        cashEntryString = "0.";
+                    else
+                        cashEntryString += ".";
+                }
+            }
+            else
+            {
+                string digits = new string(value.Where(char.IsDigit).ToArray());
+                cashEntryString += digits;
+            }
             SetCashDisplay();
             txtCash.Focus();
         }
@@ -278,11 +291,32 @@ namespace POSales
         private void SetCashDisplay()
         {
             double cash = 0;
-            if (!string.IsNullOrWhiteSpace(cashEntryDigits))
-                double.TryParse(cashEntryDigits, out cash);
+            if (!string.IsNullOrWhiteSpace(cashEntryString))
+            {
+                double.TryParse(cashEntryString, NumberStyles.Any, CultureInfo.InvariantCulture, out cash);
+            }
 
             updatingCashText = true;
-            txtCash.Text = cash.ToString("#,##0.00");
+
+            if (cashEntryString.Contains("."))
+            {
+                int dotIndex = cashEntryString.IndexOf('.');
+                string wholePart = cashEntryString.Substring(0, dotIndex);
+                string decimalPart = cashEntryString.Substring(dotIndex + 1);
+
+                double wholeVal = 0;
+                double.TryParse(wholePart, out wholeVal);
+
+                string formattedWhole = wholeVal.ToString("#,##0");
+                if (string.IsNullOrEmpty(formattedWhole)) formattedWhole = "0";
+
+                txtCash.Text = formattedWhole + "." + decimalPart;
+            }
+            else
+            {
+                txtCash.Text = cash.ToString("#,##0.00");
+            }
+
             txtCash.SelectionStart = txtCash.Text.Length;
             updatingCashText = false;
             UpdateChange();
@@ -314,14 +348,32 @@ namespace POSales
             return 0;
         }
 
-        private static string ExtractWholeNumberDigits(string value)
+        private static string ExtractDecimalDigits(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
                 return "";
 
-            int decimalIndex = value.IndexOf('.');
-            string whole = decimalIndex >= 0 ? value.Substring(0, decimalIndex) : value;
-            return new string(whole.Where(char.IsDigit).ToArray()).TrimStart('0');
+            StringBuilder sb = new StringBuilder();
+            bool hasDot = false;
+            foreach (char c in value)
+            {
+                if (char.IsDigit(c))
+                {
+                    sb.Append(c);
+                }
+                else if (c == '.' && !hasDot)
+                {
+                    sb.Append(c);
+                    hasDot = true;
+                }
+            }
+            string res = sb.ToString();
+            if (res.StartsWith("."))
+                res = "0" + res;
+            else if (res.Length > 1 && res.StartsWith("0") && !res.StartsWith("0."))
+                res = res.TrimStart('0');
+
+            return res;
         }
 
         private void Settle_KeyDown(object sender, KeyEventArgs e)

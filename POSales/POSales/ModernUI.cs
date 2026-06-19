@@ -2138,7 +2138,7 @@ namespace POSales
             int key = 64;
             int top = 18;
 
-            int labelWidth = 100;
+            int labelWidth = 110;
             int inputX = 130;
             int inputWidth = 182;
 
@@ -2200,7 +2200,7 @@ namespace POSales
             LayoutSettleButton(one, xs[0], keypadTop + 116, key, "1");
             LayoutSettleButton(two, xs[1], keypadTop + 116, key, "2");
             LayoutSettleButton(three, xs[2], keypadTop + 116, key, "3");
-            LayoutSettleButton(dZero, xs[3], keypadTop + 116, key, "00");
+            LayoutSettleButton(dZero, xs[3], keypadTop + 116, key, ".");
 
             if (enter != null)
             {
