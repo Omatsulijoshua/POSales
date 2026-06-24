@@ -42,6 +42,7 @@ namespace POSales
             this.txtVatPercent = new System.Windows.Forms.TextBox();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.chkSpecialNote = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -108,7 +109,7 @@ namespace POSales
             this.btnSave.FlatAppearance.BorderSize = 0;
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSave.ForeColor = System.Drawing.Color.White;
-            this.btnSave.Location = new System.Drawing.Point(437, 166);
+            this.btnSave.Location = new System.Drawing.Point(437, 206);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(94, 35);
             this.btnSave.TabIndex = 31;
@@ -123,13 +124,23 @@ namespace POSales
             this.btnCancel.FlatAppearance.BorderSize = 0;
             this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancel.ForeColor = System.Drawing.Color.Black;
-            this.btnCancel.Location = new System.Drawing.Point(548, 166);
+            this.btnCancel.Location = new System.Drawing.Point(548, 206);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(94, 35);
             this.btnCancel.TabIndex = 32;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = false;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
+            // chkSpecialNote
+            // 
+            this.chkSpecialNote.AutoSize = true;
+            this.chkSpecialNote.Location = new System.Drawing.Point(169, 155);
+            this.chkSpecialNote.Name = "chkSpecialNote";
+            this.chkSpecialNote.Size = new System.Drawing.Size(262, 24);
+            this.chkSpecialNote.TabIndex = 37;
+            this.chkSpecialNote.Text = "Enable Special Notes on Receipt";
+            this.chkSpecialNote.UseVisualStyleBackColor = true;
             // 
             // lblVatType
             // 
@@ -173,7 +184,7 @@ namespace POSales
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(708, 271);
+            this.ClientSize = new System.Drawing.Size(708, 311);
             this.ControlBox = false;
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnCancel);
@@ -183,6 +194,7 @@ namespace POSales
             this.Controls.Add(this.cboVatType);
             this.Controls.Add(this.lblVatPercent);
             this.Controls.Add(this.txtVatPercent);
+            this.Controls.Add(this.chkSpecialNote);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.panel1);
@@ -214,5 +226,6 @@ namespace POSales
         private System.Windows.Forms.TextBox txtVatPercent;
         public System.Windows.Forms.Button btnSave;
         public System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.CheckBox chkSpecialNote;
     }
 }

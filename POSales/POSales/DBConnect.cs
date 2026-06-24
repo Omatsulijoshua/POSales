@@ -30,7 +30,9 @@ namespace POSales
                     connection.Open();
                     using (SqlCommand command = new SqlCommand(
                         "IF COL_LENGTH('dbo.tbStore', 'vat_type') IS NULL ALTER TABLE dbo.tbStore ADD vat_type NVARCHAR(50) NULL; " +
-                        "IF COL_LENGTH('dbo.tbStore', 'vat_percent') IS NULL ALTER TABLE dbo.tbStore ADD vat_percent DECIMAL(18, 2) NULL;", connection))
+                        "IF COL_LENGTH('dbo.tbStore', 'vat_percent') IS NULL ALTER TABLE dbo.tbStore ADD vat_percent DECIMAL(18, 2) NULL; " +
+                        "IF COL_LENGTH('dbo.tbStore', 'special_note_enabled') IS NULL ALTER TABLE dbo.tbStore ADD special_note_enabled BIT NULL; " +
+                        "IF COL_LENGTH('dbo.tbCart', 'special_note') IS NULL ALTER TABLE dbo.tbCart ADD special_note NVARCHAR(MAX) NULL;", connection))
                     {
                         command.ExecuteNonQuery();
                     }
@@ -187,6 +189,51 @@ namespace POSales
             }
             catch { }
             return percent;
+        }
+
+        public bool GetSpecialNoteEnabled()
+        {
+            bool enabled = false;
+            try
+            {
+                using (SqlConnection tempCn = new SqlConnection(myConnection()))
+                {
+                    tempCn.Open();
+                    using (SqlCommand tempCm = new SqlCommand("SELECT TOP 1 ISNULL(special_note_enabled, 0) FROM tbStore", tempCn))
+                    {
+                        object result = tempCm.ExecuteScalar();
+                        if (result != null && result != DBNull.Value)
+                        {
+                            enabled = Convert.ToBoolean(result);
+                        }
+                    }
+                }
+            }
+            catch { }
+            return enabled;
+        }
+
+        public string GetTransactionNote(string transNo)
+        {
+            string note = "";
+            try
+            {
+                using (SqlConnection tempCn = new SqlConnection(myConnection()))
+                {
+                    tempCn.Open();
+                    using (SqlCommand tempCm = new SqlCommand("SELECT TOP 1 special_note FROM tbCart WHERE transno = @transno AND special_note IS NOT NULL", tempCn))
+                    {
+                        tempCm.Parameters.AddWithValue("@transno", transNo);
+                        object result = tempCm.ExecuteScalar();
+                        if (result != null && result != DBNull.Value)
+                        {
+                            note = result.ToString();
+                        }
+                    }
+                }
+            }
+            catch { }
+            return note;
         }
     }
 }

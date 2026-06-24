@@ -39,6 +39,7 @@ namespace POSales
             Label lblCash = Controls.Find("lblCash", true).OfType<Label>().FirstOrDefault();
             Label lblChange = Controls.Find("lblChange", true).OfType<Label>().FirstOrDefault();
 
+            bool noteEnabled = dbcon.GetSpecialNoteEnabled();
             if (vatType == "New")
             {
                 txtVatable.Visible = true;
@@ -53,9 +54,10 @@ namespace POSales
                 if (lblAmount != null) lblAmount.Visible = false;
                 if (lblVat != null) lblVat.Visible = false;
 
-                this.ClientSize = new Size(330, 500);
-                this.MinimumSize = new Size(330, 500);
-                this.MaximumSize = new Size(330, 500);
+                int formHeight = noteEnabled ? 560 : 500;
+                this.ClientSize = new Size(330, formHeight);
+                this.MinimumSize = new Size(330, formHeight);
+                this.MaximumSize = new Size(330, formHeight);
 
                 txtCash.Top = txtSale.Top + 40;
                 if (lblCash != null) lblCash.Top = txtSale.Top + 40;
@@ -68,7 +70,20 @@ namespace POSales
                 ComboBox paymentType = Controls.Find("cboPaymentType", true).OfType<ComboBox>().FirstOrDefault();
                 if (paymentType != null) paymentType.Top = txtSale.Top + 142;
 
-                int keypadTop = txtSale.Top + 192;
+                if (noteEnabled)
+                {
+                    lblNote.Visible = true;
+                    txtNote.Visible = true;
+                    lblNote.Top = txtSale.Top + 180;
+                    txtNote.Top = txtSale.Top + 204;
+                }
+                else
+                {
+                    lblNote.Visible = false;
+                    txtNote.Visible = false;
+                }
+
+                int keypadTop = noteEnabled ? txtSale.Top + 252 : txtSale.Top + 192;
                 int key = 64;
                 int gap = 8;
                 int margin = 18;
@@ -213,8 +228,9 @@ namespace POSales
                         cn.Close();
 
                         cn.Open();
-                        cm = new SqlCommand("UPDATE tbCart SET status = 'Sold', paymenttype = @paymenttype WHERE id = @id", cn);
+                        cm = new SqlCommand("UPDATE tbCart SET status = 'Sold', paymenttype = @paymenttype, special_note = @special_note WHERE id = @id", cn);
                         cm.Parameters.AddWithValue("@paymenttype", paymentType);
+                        cm.Parameters.AddWithValue("@special_note", dbcon.GetSpecialNoteEnabled() ? txtNote.Text.Trim() : (object)DBNull.Value);
                         cm.Parameters.AddWithValue("@id", cashier.dgvCash.Rows[i].Cells[1].Value.ToString());
                         cm.ExecuteNonQuery();
                         cn.Close();

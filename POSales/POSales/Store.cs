@@ -40,6 +40,7 @@ namespace POSales
                     txtAddress.Text = dr["address"].ToString();
                     cboVatType.Text = dr["vat_type"] != DBNull.Value && !string.IsNullOrEmpty(dr["vat_type"].ToString()) ? dr["vat_type"].ToString() : "Old";
                     txtVatPercent.Text = dr["vat_percent"] != DBNull.Value ? Convert.ToDouble(dr["vat_percent"]).ToString("0.00") : "12.00";
+                    chkSpecialNote.Checked = dr["special_note_enabled"] != DBNull.Value ? Convert.ToBoolean(dr["special_note_enabled"]) : false;
                 }
                 else
                 {
@@ -47,6 +48,7 @@ namespace POSales
                     txtAddress.Clear();
                     cboVatType.SelectedIndex = 0;
                     txtVatPercent.Text = "12.00";
+                    chkSpecialNote.Checked = false;
                 }
                 dr.Close();
                 cn.Close();
@@ -70,16 +72,17 @@ namespace POSales
                     cn.Open();
                     if(havestoreinfo)
                     {
-                        cm = new SqlCommand("UPDATE tbStore SET store = @store, address = @address, vat_type = @vat_type, vat_percent = @vat_percent", cn);
+                        cm = new SqlCommand("UPDATE tbStore SET store = @store, address = @address, vat_type = @vat_type, vat_percent = @vat_percent, special_note_enabled = @special_note_enabled", cn);
                     }
                     else
                     {
-                        cm = new SqlCommand("INSERT INTO tbStore (store, address, vat_type, vat_percent) VALUES (@store, @address, @vat_type, @vat_percent)", cn);
+                        cm = new SqlCommand("INSERT INTO tbStore (store, address, vat_type, vat_percent, special_note_enabled) VALUES (@store, @address, @vat_type, @vat_percent, @special_note_enabled)", cn);
                     }
                     cm.Parameters.AddWithValue("@store", txtStName.Text);
                     cm.Parameters.AddWithValue("@address", txtAddress.Text);
                     cm.Parameters.AddWithValue("@vat_type", cboVatType.Text);
                     cm.Parameters.AddWithValue("@vat_percent", vatPercent);
+                    cm.Parameters.AddWithValue("@special_note_enabled", chkSpecialNote.Checked);
                     cm.ExecuteNonQuery();
                     cn.Close();
 

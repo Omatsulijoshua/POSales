@@ -54,7 +54,18 @@ namespace POSales
             this.btnThree = new System.Windows.Forms.Button();
             this.btnDZero = new System.Windows.Forms.Button();
             this.btnEnter = new System.Windows.Forms.Button();
+            this.txtNote = new System.Windows.Forms.TextBox();
+            this.lblNote = new System.Windows.Forms.Label();
             this.SuspendLayout();
+            // 
+            // txtNote
+            // 
+            this.txtNote.Name = "txtNote";
+            // 
+            // lblNote
+            // 
+            this.lblNote.Name = "lblNote";
+            this.lblNote.Text = "Special Note";
             // 
             // txtSale
             // 
@@ -273,6 +284,8 @@ namespace POSales
             this.Controls.Add(this.btnFour);
             this.Controls.Add(this.btnEight);
             this.Controls.Add(this.btnSeven);
+            this.Controls.Add(this.txtNote);
+            this.Controls.Add(this.lblNote);
             // 
             // lblTotalAmount
             // 
@@ -350,5 +363,7 @@ namespace POSales
         private System.Windows.Forms.Label lblVat;
         private System.Windows.Forms.Label lblCash;
         private System.Windows.Forms.Label lblChange;
+        public System.Windows.Forms.TextBox txtNote;
+        private System.Windows.Forms.Label lblNote;
     }
 }

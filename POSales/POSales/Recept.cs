@@ -86,6 +86,13 @@ namespace POSales
                 ReportParameter pVatPercent = new ReportParameter("pVatPercent", dbcon.GetVatPercent().ToString("0.00"));
                 ReportParameter pVatType = new ReportParameter("pVatType", dbcon.GetVatType());
 
+                string specialNote = "";
+                if (dbcon.GetSpecialNoteEnabled())
+                {
+                    specialNote = dbcon.GetTransactionNote(cashier.lblTranNo.Text);
+                }
+                ReportParameter pSpecialNote = new ReportParameter("pSpecialNote", specialNote);
+
                 reportViewer1.LocalReport.SetParameters(pVatable);
                 reportViewer1.LocalReport.SetParameters(pVat);
                 reportViewer1.LocalReport.SetParameters(pDiscount);
@@ -99,6 +106,7 @@ namespace POSales
                 reportViewer1.LocalReport.SetParameters(pPaymentType);
                 reportViewer1.LocalReport.SetParameters(pVatPercent);
                 reportViewer1.LocalReport.SetParameters(pVatType);
+                reportViewer1.LocalReport.SetParameters(pSpecialNote);
 
                 rptDataSourece = new ReportDataSource("DataSet1", ds.Tables["dtRecept"]);
                 reportViewer1.LocalReport.DataSources.Add(rptDataSourece);

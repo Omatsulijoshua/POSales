@@ -98,6 +98,8 @@ namespace POSales
                 EnhanceProduct(form);
             else if (form.Name == "ProductModule")
                 EnhanceProductModule(form);
+            else if (form.Name == "BrandModule")
+                EnhanceModuleTitleBar(form, "Brand Module");
             else if (form.Name == "CategoryModule")
                 EnhanceModuleTitleBar(form, "Category Module");
             else if (form.Name == "SupplierModule")
@@ -129,6 +131,9 @@ namespace POSales
         private static void StyleControl(Control control)
         {
             if (control == null || StyledControls.Contains(control))
+                return;
+
+            if (IsCaptionButton(control))
                 return;
 
             StyledControls.Add(control);
@@ -481,10 +486,21 @@ namespace POSales
                 return;
 
             int height = 0;
+            Form form = panel.FindForm();
+            bool isFormVisible = form != null && form.Visible;
+
             foreach (Control child in panel.Controls)
             {
-                if (child.Visible)
-                    height += child.Height;
+                if (isFormVisible)
+                {
+                    if (child.Visible)
+                        height += child.Height;
+                }
+                else
+                {
+                    if (child is Button)
+                        height += child.Height;
+                }
             }
 
             if (height > 0)
@@ -1501,6 +1517,16 @@ namespace POSales
             return button;
         }
 
+        private static bool IsCaptionButton(Control control)
+        {
+            if (control == null || string.IsNullOrEmpty(control.Name))
+                return false;
+
+            return control.Name.Equals("modernMinimizeButton", StringComparison.OrdinalIgnoreCase) ||
+                control.Name.Equals("modernMaximizeButton", StringComparison.OrdinalIgnoreCase) ||
+                control.Name.Equals("modernCloseButton", StringComparison.OrdinalIgnoreCase);
+        }
+
         private static void StyleCaptionButton(Button button, Color backColor, Color foreColor)
         {
             if (button == null)
@@ -2098,11 +2124,16 @@ namespace POSales
 
         private static void EnhanceSettle(Form form)
         {
+            DBConnect dbcon = new DBConnect();
+            bool noteEnabled = dbcon.GetSpecialNoteEnabled();
+
             form.FormBorderStyle = FormBorderStyle.FixedSingle;
             form.StartPosition = FormStartPosition.CenterParent;
-            form.ClientSize = new Size(330, 580);
-            form.MinimumSize = new Size(330, 580);
-            form.MaximumSize = new Size(330, 580);
+
+            int formHeight = noteEnabled ? 640 : 580;
+            form.ClientSize = new Size(330, formHeight);
+            form.MinimumSize = new Size(330, formHeight);
+            form.MaximumSize = new Size(330, formHeight);
             form.BackColor = AppBackground;
 
             TextBox sale = FindControl<TextBox>(form, "txtSale");
@@ -2110,6 +2141,8 @@ namespace POSales
             TextBox vat = FindControl<TextBox>(form, "txtVat");
             TextBox cash = FindControl<TextBox>(form, "txtCash");
             TextBox change = FindControl<TextBox>(form, "txtChange");
+            TextBox note = FindControl<TextBox>(form, "txtNote");
+            Label noteLabel = FindControl<Label>(form, "lblNote");
             Label lblTotalAmount = FindControl<Label>(form, "lblTotalAmount");
             Label lblAmount = FindControl<Label>(form, "lblAmount");
             Label lblVat = FindControl<Label>(form, "lblVat");
@@ -2187,7 +2220,35 @@ namespace POSales
                 paymentType.SelectedIndex = 0;
             paymentType.SetBounds(margin, top + 222, width, 34);
 
-            int keypadTop = top + 272;
+            if (noteEnabled)
+            {
+                if (noteLabel != null)
+                {
+                    noteLabel.Text = "Special Note";
+                    noteLabel.AutoSize = false;
+                    noteLabel.Font = new Font("Segoe UI Semibold", 9.5F, FontStyle.Bold);
+                    noteLabel.ForeColor = MutedText;
+                    noteLabel.SetBounds(margin, top + 262, width, 22);
+                    noteLabel.Visible = true;
+                }
+
+                if (note != null)
+                {
+                    note.Font = DefaultFont;
+                    note.BackColor = Surface;
+                    note.ForeColor = Text;
+                    note.BorderStyle = BorderStyle.FixedSingle;
+                    note.SetBounds(margin, top + 286, width, 34);
+                    note.Visible = true;
+                }
+            }
+            else
+            {
+                if (noteLabel != null) noteLabel.Visible = false;
+                if (note != null) note.Visible = false;
+            }
+
+            int keypadTop = noteEnabled ? top + 336 : top + 272;
             int[] xs = { margin, margin + key + gap, margin + (key + gap) * 2, margin + (key + gap) * 3 };
             LayoutSettleButton(seven, xs[0], keypadTop, key, "7");
             LayoutSettleButton(eight, xs[1], keypadTop, key, "8");
